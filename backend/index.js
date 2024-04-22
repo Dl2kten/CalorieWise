@@ -12,6 +12,15 @@ mongoose.connect('mongodb://127.0.0.1:27017/calorie-wise')
     .catch((err)=>{console.log("Mongo connection error", err)});
 
 //routes
+app.get("/foods", async(req, res) => {
+    try{
+    const allFoods = await Food.find();
+    res.status(201).json(allFoods);
+    } catch(err) {
+        console.error(err);
+        res.status(500).json({error: "Internal Server Error"});
+    }
+})
 app.get("/addFood", async (req, res) => {
     const food = new Food({name: "Apple", amount: 1, servingSize: "Med-200g", calories: 200});
     await food.save();
